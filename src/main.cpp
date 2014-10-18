@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include <unistd.h>
+#include <sys/wait.h>
 
 #include "split.h"
 
@@ -26,16 +27,28 @@ char **convert(vector<string>& v)
 
 void execute_cmds(deque<string>& cmds)
 {
-    pid_t child_pid = fork();
+    vector<pid_t> pids;
 
-    if (child_pid == 0)
+    while (!cmds.empty())
     {
-        vector<string> args;
-        split(cmds.front(), args, ' ');
-        char **argv = convert(args);
-        execvp(argv[0], argv);
-        free(argv);
+        pid_t child_pid = fork();
+
+        if (child_pid == 0)
+        {
+            vector<string> args;
+            split(cmds.front(), args, ' ');
+            char **argv = convert(args);
+            execvp(argv[0], argv);
+            free(argv);
+        }
+        else
+            pids.push_back(child_pid);
+
+        cmds.pop_front();
     }
+
+    for (pid_t pid : pids)
+        waitpid(pid, NULL, 0);
 }
 
 istream& read_cmds(istream& in, bool prompt=true)
@@ -43,7 +56,7 @@ istream& read_cmds(istream& in, bool prompt=true)
     string line;
 
     if (prompt)
-        cout << "<prompt> ";
+        cout << "prompt> ";
 
     while (getline(in, line))
     {
@@ -52,7 +65,7 @@ istream& read_cmds(istream& in, bool prompt=true)
         split(line, cmds, ';');
         execute_cmds(cmds);
 
-        cout << "<prompt> ";
+        cout << "prompt> ";
     }
 
     return cin;
