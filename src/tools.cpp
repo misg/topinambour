@@ -1,4 +1,11 @@
-#include "utils.h"
+/* Some useful tools
+ * @Author: Michaël Sghaïer
+ * @Email: michael.sghaïer@polymtl.ca
+ * @Date: 18/10/2014
+ * @LastUpdate: 18/10/2014
+ */
+
+#include "tools.h"
 
 using namespace std;
 
