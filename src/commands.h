@@ -12,8 +12,8 @@
 #include <string>
 #include <vector>
 
-void execute_cmds(std::vector<std::string>&);
+std::vector<std::string> parse(const std::string);
 
-std::istream& read_cmds(std::istream&, bool prompt=true);
+void execute(std::vector<std::string>&);
 
 #endif

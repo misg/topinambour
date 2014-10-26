@@ -12,7 +12,12 @@
 
 using namespace std;
 
-void execute_cmds(vector<string>& instructions)
+vector<string> parse(const string input)
+{
+    return split(input, ';');
+}
+
+void execute(vector<string>& instructions)
 {
     vector<pid_t> pids;
 
@@ -36,23 +41,4 @@ void execute_cmds(vector<string>& instructions)
 
     for (pid_t pid : pids)
         waitpid(pid, NULL, 0);
-}
-
-istream& read_cmds(istream& in, bool prompt)
-{
-    string line;
-
-    if (prompt)
-        cout << "prompt> ";
-
-    while (getline(in, line))
-    {
-        vector<string> instructions = split(line, ';');
-
-        execute_cmds(instructions);
-
-        cout << "prompt> ";
-    }
-
-    return cin;
 }

@@ -13,11 +13,20 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-    if (argc == 1)
+    if (argc == 1) // Prompt mode
     {
-        read_cmds(cin);
+        cout << "prompt> ";
+
+        string line;
+        while (getline(cin, line))
+        {
+            vector<string> instructions = parse(line);
+            execute(instructions);
+
+            cout << "prompt> ";
+        }
     }
-    else if (argc == 2)
+    else if (argc == 2) // Batch mode
     {
         ifstream batchFile(argv[1]);
         if (!batchFile)
@@ -26,7 +35,16 @@ int main(int argc, char *argv[])
                  << argv[1] << "\"." << endl;
             return 1;
         }
-        read_cmds(batchFile, false);
+        
+        string line;
+        while (getline(batchFile, line))
+        {
+            cout << line << endl;
+
+            vector<string> instructions = parse(line);
+            execute(instructions);
+        }
+
         batchFile.close();
     }
     else
