@@ -8,12 +8,10 @@
 #ifndef __src__tools_h__
 #define __src__tools_h__
 
-#include <deque>
 #include <string>
 #include <vector>
 
-std::deque<std::string> split(const std::string, char);
 std::vector<std::string> split(const std::string, char);
-char **vector_to_array(std::vector<std::string>&);
+char **vector_of_string_to_array_of_char(std::vector<std::string>&);
 
 #endif

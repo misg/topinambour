@@ -12,19 +12,19 @@
 
 using namespace std;
 
-void execute_cmds(deque<string>& cmds)
+void execute_cmds(vector<string>& instructions)
 {
     vector<pid_t> pids;
 
-    while (!cmds.empty())
+    for (string instr : instructions)
     {
         pid_t child_pid = fork();
 
         if (child_pid == 0)
         {
-            vector<string> args = split(cmds.front(), ' ');
+            vector<string> args = split(instr, ' ');
 
-            char **argv = convert(args);
+            char **argv = vector_of_string_to_array_of_char(args);
 
             execvp(argv[0], argv);
 
@@ -32,8 +32,6 @@ void execute_cmds(deque<string>& cmds)
         }
         else
             pids.push_back(child_pid);
-
-        cmds.pop_front();
     }
 
     for (pid_t pid : pids)
@@ -49,9 +47,9 @@ istream& read_cmds(istream& in, bool prompt)
 
     while (getline(in, line))
     {
-        deque<string> cmds = split(line, ';');
+        vector<string> instructions = split(line, ';');
 
-        execute_cmds(cmds);
+        execute_cmds(instructions);
 
         cout << "prompt> ";
     }
