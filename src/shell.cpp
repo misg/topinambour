@@ -6,6 +6,7 @@
  */
 
 #include "commands.h"
+#include <cstdlib>
 #include <fstream>
 #include "tools.h"
 
@@ -24,6 +25,12 @@ int main(int argc, char *argv[])
             execute(instructions);
 
             cout << "prompt> ";
+        }
+
+        if (cin.eof())
+        {
+            cout << endl;
+            exit(EXIT_SUCCESS);
         }
     }
     else if (argc == 2) // Batch mode
@@ -44,8 +51,11 @@ int main(int argc, char *argv[])
             vector<string> instructions = parse(line);
             execute(instructions);
         }
-
+        
         batchFile.close();
+
+        if (batchFile.eof())
+            exit(EXIT_SUCCESS);
     }
     else
     {
