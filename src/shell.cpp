@@ -2,11 +2,10 @@
  * @Author: Michaël Sghaïer
  * @Email: michael.sghaïer@polymtl.ca
  * @Date: 18/10/2014
- * @LastUpdate: 18/10/2014
+ * @LastUpdate: 05/11/2014
  */
 
 #include "commands.h"
-#include <cstdlib>
 #include <fstream>
 #include "tools.h"
 
@@ -22,7 +21,8 @@ int main(int argc, char *argv[])
         while (getline(cin, line))
         {
             vector<string> instructions = parse(line);
-            execute(instructions);
+            int res = execute(instructions);
+            if (res == 1) return EXIT_SUCCESS;
 
             cout << "prompt> ";
         }
@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
         if (cin.eof())
         {
             cout << endl;
-            exit(EXIT_SUCCESS);
+            return EXIT_SUCCESS;
         }
     }
     else if (argc == 2) // Batch mode
@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
         {
             cerr << "An error occured during opening file \""
                  << argv[1] << "\"." << endl;
-            return 1;
+            return EXIT_FAILURE;
         }
         
         string line;
@@ -49,17 +49,18 @@ int main(int argc, char *argv[])
             cout << line << endl;
 
             vector<string> instructions = parse(line);
-            execute(instructions);
+            int res = execute(instructions);
+            if (res == 1) return EXIT_SUCCESS;
         }
         
         batchFile.close();
 
         if (batchFile.eof())
-            exit(EXIT_SUCCESS);
+            return EXIT_SUCCESS;
     }
     else
     {
         cerr << "Too much arguments." << endl;
-        return 1;
+        return EXIT_FAILURE;
     }
 }

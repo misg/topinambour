@@ -14,6 +14,6 @@
 
 std::vector<std::string> parse(const std::string);
 
-void execute(std::vector<std::string>&);
+int execute(std::vector<std::string>&);
 
 #endif

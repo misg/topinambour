@@ -15,20 +15,21 @@
 
 using namespace std;
 
+string QUIT = "quit";
+
 vector<string> parse(const string input)
 {
     return split(input, ';');
 }
 
-void execute(vector<string>& instructions)
+int execute(vector<string>& instructions)
 {
     vector<pid_t> pids;
-    string quit_command = "quit";
     bool quit = false;
 
     for (string instr : instructions)
     {
-        if (split(instr, ' ')[0] == quit_command)
+        if (split(instr, ' ')[0] == QUIT)
             quit = true;
         else
         {
@@ -39,18 +40,15 @@ void execute(vector<string>& instructions)
                 vector<string> args = split(instr, ' ');
 
                 char **argv = vector_of_string_to_array_of_char(args);
-
                 int res = execvp(argv[0], argv);
+                
+                free(argv);
 
                 if (res == -1)
                 {
-                    char buffer[256];
-                    char *error = strerror_r(errno, buffer, 256);
-                    cout << error << endl;
+                    cerr << strerror(errno) << endl;
                     exit(EXIT_FAILURE);
                 }
-
-                free(argv);
             }
             else
                 pids.push_back(child_pid);
@@ -60,6 +58,6 @@ void execute(vector<string>& instructions)
     for (pid_t pid : pids)
         waitpid(pid, NULL, 0);
 
-    if (quit)
-        exit(EXIT_SUCCESS);
+    if (quit) return 1;
+    else      return 0;
 }
