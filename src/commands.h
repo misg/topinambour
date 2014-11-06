@@ -12,7 +12,7 @@
 #include <string>
 #include <vector>
 
-std::vector<std::string> parse(const std::string);
+std::vector<std::string> parse(const std::string&);
 
 int execute(std::vector<std::string>&);
 

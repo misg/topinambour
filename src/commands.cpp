@@ -15,7 +15,7 @@
 
 using namespace std;
 
-string QUIT = "quit";
+const string QUIT = "quit";
 
 vector<string> parse(const string input)
 {

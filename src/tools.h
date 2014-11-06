@@ -11,7 +11,7 @@
 #include <string>
 #include <vector>
 
-std::vector<std::string> split(const std::string, char);
+std::vector<std::string> split(const std::string&, char);
 
 char **vector_of_string_to_array_of_char(std::vector<std::string>&);
 
