@@ -2,12 +2,14 @@
  * @Author: Michaël Sghaïer
  * @Email: michael.sghaïer@polymtl.ca
  * @Date: 18/10/2014
- * @LastUpdate: 18/10/2014
+ * @LastUpdate: 05/11/2014
  */
 
 #include "commands.h"
 #include <cstdlib>
+#include "errno.h"
 #include <sys/wait.h>
+#include "string.h"
 #include <unistd.h>
 #include "tools.h"
 
@@ -38,7 +40,15 @@ void execute(vector<string>& instructions)
 
                 char **argv = vector_of_string_to_array_of_char(args);
 
-                execvp(argv[0], argv);
+                int res = execvp(argv[0], argv);
+
+                if (res == -1)
+                {
+                    char buffer[256];
+                    char *error = strerror_r(errno, buffer, 256);
+                    cout << error << endl;
+                    exit(EXIT_FAILURE);
+                }
 
                 free(argv);
             }
