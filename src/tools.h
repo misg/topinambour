@@ -1,6 +1,6 @@
 /* Some useful tools
  * @Author: Michaël Sghaïer
- * @Email: michael.sghaïer@polymtl.ca
+ * @Email: michael.sghaier@polymtl.ca
  * @Date: 18/10/2014
  * @LastUpdate: 18/10/2014
  */

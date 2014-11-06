@@ -1,6 +1,6 @@
 /* Main commands of the shell
  * @Author: Michaël Sghaïer
- * @Email: michael.sghaïer@polymtl.ca
+ * @Email: michael.sghaier@polymtl.ca
  * @Date: 18/10/2014
  * @LastUpdate: 05/11/2014
  */
