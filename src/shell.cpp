@@ -27,11 +27,8 @@ int main(int argc, char *argv[])
             cout << "prompt> ";
         }
 
-        if (cin.eof())
-        {
+        if (cin.eof()) // Case of ctrl-d
             cout << endl;
-            return EXIT_SUCCESS;
-        }
     }
     else if (argc == 2) // Batch mode
     {
@@ -54,9 +51,6 @@ int main(int argc, char *argv[])
         }
         
         batchFile.close();
-
-        if (batchFile.eof())
-            return EXIT_SUCCESS;
     }
     else
     {

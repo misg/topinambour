@@ -17,7 +17,7 @@ using namespace std;
 
 const string QUIT = "quit";
 
-vector<string> parse(const string input)
+vector<string> parse(const string& input)
 {
     return split(input, ';');
 }
